@@ -1,6 +1,6 @@
 {
   "name": "pacmod-cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A package module development environment tool",
   "scripts": {
     "test": "echo \"Testing functionality missing\" && exit 0"
