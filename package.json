@@ -1,10 +1,7 @@
 {
   "name": "pacmod-cli",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A package module development environment tool",
-  "scripts": {
-    "test": "echo \"Testing functionality missing\" && exit 0"
-  },
   "author": "Alex Roth <alexfrombismarck@gmail.com> (http://cosrnos.com/)",
   "license": "ISC",
   "preferGlobal": true,
@@ -16,11 +13,11 @@
     "browserify": "^12.0.1",
     "connect-livereload": "^0.5.4",
     "del": "^2.1.0",
-    "exec": "^0.2.1",
     "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs": "^0.1.3",

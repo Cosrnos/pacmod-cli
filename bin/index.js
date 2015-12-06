@@ -4,6 +4,7 @@
 var gulp;
 var exec = require('exec');
 var child_process = require('child_process');
+var options = Array.prototype.slice.call(process.argv, 2);
 
 function spawn_gulp_process() {
     var gulp_process = child_process.spawn(__dirname + '/../node_modules/gulp/bin/gulp.js', Array.prototype.slice.call(arguments));
@@ -18,8 +19,17 @@ function spawn_gulp_process() {
         console.log('stdout: ' + data);
     });
 }
+
 let pargs = ['--cwd=' + __dirname];
-pargs.push('--silent');
-pargs.push('pacmod_dir=' + process.cwd());
+
+if (options[0] === 'test') {
+    pargs.push('test');
+}
+
+if (options[1] !== '-d') {
+    pargs.push('--silent');
+}
+
+pargs.push('--pacmod_dir=' + process.cwd());
 
 spawn_gulp_process.apply(this, pargs);

@@ -1,5 +1,6 @@
 // Modules
 const babel = require('gulp-babel');
+const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const uglify = require('gulp-uglify');
 const replace = require('gulp-replace');
@@ -13,8 +14,9 @@ const browserify = require('browserify');
 
 module.exports = function (gulp, Config) {
     gulp.task('es6-commonjs', ['clean'], function () {
-        return gulp.src([Config.CWD + '/packages/**/lib/*.js', Config.CWD + '/packages/**/lib/**/*.js'])
+        return gulp.src([Config.CWD + '/packages/**/*.js', Config.CWD + '/packages/**/*.js'])
             .pipe(rename(function (path) {
+                // Tests should be preserved in /tests directory of package
                 path.dirname = path.dirname.replace('/lib', '');
             }))
             .pipe(sourcemaps.init())
@@ -35,12 +37,44 @@ module.exports = function (gulp, Config) {
             .bundle()
             .on('error', handle_error('commonjs-bundle::browserify-bundle'))
             .pipe(source(Config.PACKAGE_NAME + '.js'))
+            .on('error', handle_error('commonjs-bundle'))
             .pipe(buffer())
-            .pipe(uglify())
+            .on('error', handle_error('commonjs-bundle'))
+            //.pipe(uglify())
+            //.on('error', handle_error('commonjs-bundle'))
             .pipe(rename(Config.PACKAGE_NAME + '.js'))
+            .on('error', handle_error('commonjs-bundle'))
             .pipe(gulp.dest(Config.BUILD_DEST))
+            .on('error', handle_error('commonjs-bundle'))
             .pipe(gulp.dest(Config.DIST_PATH + Config.DIST_FOLDER))
             .on('error', handle_error('commonjs-bundle'));
+    });
+
+    gulp.task('concat-test', ['clean', 'commonjs-bundle'], function () {
+        return gulp.src([Config.BUILD_DEST + '/tmp/**/tests/*.js'])
+            .pipe(concat('tmp/tests.js'))
+            .on('error', handle_error('concat-test'))
+            .pipe(gulp.dest(Config.BUILD_DEST))
+            .on('error', handle_error('concat-test'))
+    });
+
+    gulp.task('build-test', ['concat-test'], function () {
+        return browserify([Config.BUILD_DEST + '/tmp/tests.js'])
+            .on('error', handle_error('test-bundle::browserify'))
+            .bundle()
+            .on('error', handle_error('test-bundle::browserify-bundle'))
+            .pipe(source(Config.PACKAGE_NAME + '-tests.js'))
+            .on('error', handle_error('build-test'))
+            .pipe(buffer())
+            .on('error', handle_error('build-test'))
+            //.pipe(uglify())
+            //.on('error', handle_error('build-test'))
+            .pipe(rename(Config.PACKAGE_NAME + '-tests.js'))
+            .on('error', handle_error('build-test'))
+            .pipe(gulp.dest(Config.BUILD_DEST))
+            .on('error', handle_error('build-test'))
+            .pipe(gulp.dest(Config.TEST_DEST))
+            .on('error', handle_error('build-test'));
     });
 }
 

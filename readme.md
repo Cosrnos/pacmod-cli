@@ -65,3 +65,21 @@ The name of the package that should be used as the main entry point for the appl
 ### <code>PORT</code>
 Default: <code>4000</code>
 The port to serve development files from.
+
+### <code>TEST_DESTINATION</code>
+Default: <code>'_test'</code>
+The directory to use to serve test files from.
+ 
+### <code>TEST_PORT</code>
+Default: <code>4001</code>
+The port to serve test files from
+
+## Testing
+
+pacmod has [QUnit](http://qunitjs.com/) support built in! You can write all of your tests in the <code>/tests</code> folder of the respective package. To run your tests, run
+
+```
+pacmod test
+```
+
+from your project directory. Your tests will be built and a window will open in your default browser to run the tests. You can even run <code>pacmod</code> and <code>pacmod test</code> simultaneously while developing.

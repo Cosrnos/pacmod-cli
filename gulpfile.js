@@ -11,7 +11,7 @@ let CWD = process.cwd();
 
 // Load Arguments to parse any cwd changes
 _.each(process.argv, (arg)=> {
-    if (arg.indexOf('pacmod_dir') > -1) {
+    if (arg.indexOf('--pacmod_dir') > -1) {
         // Set the current working directory to the arg
         let arg_split = arg.split('=');
         CWD = arg_split[1];
@@ -31,6 +31,8 @@ require('./tasks/serve.js')(gulp, Config);
 gulp.task('clean', ['clean-build', 'clean-dist'])
 gulp.task('build', ['commonjs-bundle', 'copy-public']);
 gulp.task('serve', ['express', 'livereload', 'watch']);
+gulp.task('test', ['clean', 'concat-test', 'build', 'build-test', 'copy-test-template', 'serve-test']);
+gulp.task('serve-test', ['express-test', 'livereload-test', 'watch-test']);
 gulp.task('dev', ['clean', 'build', 'serve']);
 
 gulp.task('default', ['dev']);
