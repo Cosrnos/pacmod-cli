@@ -22,6 +22,14 @@ And you can get started!
 
 Packages are defined as self contained components or module packs that are distributed with their own unit tests. Each package should be independant and have no dependencies outside of itself. The package folder structure is
 
+```
+- /package-name
+--- /lib
+----- /index.js (entry point)
+--- /tests
+--- /readme.md (optional)
+```
+
 ## Project Setup
 
 Assuming your project is organized in package-module structure you can get started by simply running
@@ -31,14 +39,6 @@ pacmod
 ```
 
 In the project directory. pacmod will look for a <code>packages</code> folder and compile all packages present. You should always define a main entry point that will be invoked once the file is loaded (defaults to the main.js package)
-
-```
-- /package-name
---- /lib
------ /index.js (entry point)
---- /tests
---- /readme.md (optional)
-```
 
 pacmod will also copy files in the public folder of your project to the dist folder. Once complete, pacmod will open your projects dev environment in your default browser. pacmod will continue watching your files for changes and reloading them in the browser.
 
