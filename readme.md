@@ -8,18 +8,39 @@ Warning: Please note that releases before 1.0.0 may not be backwards compatable
  ```
  
 
-## Usage
+## Setup
 
-At the moment, pacmod the pacmod files should be downloaded and put into your project directory. Once complete, run
+Simply install the cli
 
 ```
-npm install -g gulp
-npm install
+npm install -g pacmod
 ```
 
-You can then use pacmod by running gulp. The main entry point of pacmod defaults to the <code>index.js</code> file of the main package.
+And you can get started!
 
-You may also put files in the <code>/public</code> folder to be included in the /dist directory
+## Package Structure
+
+Packages are defined as self contained components or module packs that are distributed with their own unit tests. Each package should be independant and have no dependencies outside of itself. The package folder structure is
+
+## Project Setup
+
+Assuming your project is organized in package-module structure you can get started by simply running
+
+```
+pacmod
+```
+
+In the project directory. pacmod will look for a <code>packages</code> folder and compile all packages present. You should always define a main entry point that will be invoked once the file is loaded (defaults to the main.js package)
+
+```
+- /package-name
+--- /lib
+----- /index.js (entry point)
+--- /tests
+--- /readme.md (optional)
+```
+
+pacmod will also copy files in the public folder of your project to the dist folder. Once complete, pacmod will open your projects dev environment in your default browser. pacmod will continue watching your files for changes and reloading them in the browser.
 
 ## Configuration
 
@@ -41,14 +62,6 @@ The folder relative to <code><Project-directory>/dist</code> that the compiled J
 Default: <code>'main'</code>
 The name of the package that should be used as the main entry point for the application. This file will be invoked on script load.
 
-## Package Structure
-
-Packages are defined as self contained components or module packs that are distributed with their own unit tests. Each package should be independant and have no dependencies outside of itself. The package folder structure is
- 
-```
-- /package-name
---- /lib
------ /index.js (entry point)
---- /tests
---- /readme.md (optional)
-```
+### <code>PORT</code>
+Default: <code>4000</code>
+The port to serve development files from.
