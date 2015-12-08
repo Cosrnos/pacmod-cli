@@ -3,7 +3,7 @@
 const gulp = require('gulp');
 const _ = require('lodash');
 
-const ConfigLoader = require('./bin/conf.js');
+const ConfigLoader = require('./config/loader.js');
 
 // Config Vars
 let CWD = process.cwd();

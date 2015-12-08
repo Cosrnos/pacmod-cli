@@ -8,8 +8,6 @@ module.exports = function (gulp, Config) {
 
 // Helpers
 function clean_directory(path) {
-    next_count = 0;
-
     return function __clean_dir(next) {
         del([path], {
             force: true
