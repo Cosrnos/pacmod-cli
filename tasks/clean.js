@@ -1,9 +1,9 @@
 var del = require('del');
 
 module.exports = function (gulp, Config) {
-    gulp.task('clean-build', clean_directory(Config.BUILD_DEST));
-    gulp.task('clean-dist', ['clean-build'], clean_directory(Config.DIST_PATH));
-    gulp.task('bundle-commonjs-clean', ['clean-dist'], clean_directory(Config.BUILD_DEST + '/commonjs'));
+    gulp.task('clean-build', clean_directory(Config._TEMP_FOLDER_PATH));
+    gulp.task('clean-dist', ['clean-build'], clean_directory(Config._BUILD_TARGET_PATH));
+    gulp.task('bundle-commonjs-clean', ['clean-dist'], clean_directory(Config._TEMP_FOLDER_PATH + '/commonjs'));
 };
 
 // Helpers

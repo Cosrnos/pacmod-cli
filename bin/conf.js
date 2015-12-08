@@ -1,24 +1,25 @@
 "use strict";
 
 const _ = require('lodash');
+const fs = require('fs');
 
 // TODO: Use lower case variables
-const DEFAULTS = {
+const default_config_values = {
     // Basic
-    PACKAGE_NAME: 'pacmod',
+    PACKAGE_NAME: 'pacmod', // TODO: Default to package.json name if available
     MAIN_PACKAGE: 'main',
 
     // Build
-    BUILD_DESTINATION: '_build', // TODO: Rename to TEMP_FOLDER
+    TEMP_FOLDER: '_build',
 
     // Dist
-    DIST_FOLDER: '', // TODO: Rename to BUILD_TARGET
+    BUILD_TARGET: 'dist',
+    SCRIPT_PATH: '',
 
     // Serve
     PORT: 4000,
 
     // Testing
-    TEST_DESTINATION: '_test', // TODO: Use the TEMP_FOLDER variable and a test directory, temp test destination shouldn't matter
     TEST_PORT: 4001
 };
 
@@ -27,17 +28,18 @@ module.exports = function (CWD) {
 
     let Config = _.defaults({
         CWD: CWD
-    }, config_file, DEFAULTS);
+    }, config_file, default_config_values);
 
     return add_virtuals(Config);
 };
 
 function add_virtuals(Config) {
-    let virtuals = {
-        DIST_PATH: Config.CWD + '/dist',
-        TEST_DEST: Config.CWD + '/' + Config.TEST_DESTINATION,
-        BUILD_DEST: Config.CWD + '/' + Config.BUILD_DESTINATION
+    var virtuals = {
+        _BUILD_TARGET_PATH: Config.CWD + Config.BUILD_TARGET,
+        _TEMP_FOLDER_PATH: Config.CWD + '/' + Config.TEMP_FOLDER
     };
+
+    virtuals._TEST_FOLDER_PATH = virtuals._TEMP_FOLDER_PATH + '/tests';
 
     return _.defaults({}, Config, virtuals);
 };
@@ -47,7 +49,7 @@ function load_pacmod_config(path) {
 
     try {
         // Blocking behavior implimented since we rely on the config for everything
-        contents = JSON.parse(require('fs').readFileSync(path, 'utf8'));
+        contents = JSON.parse(fs.readFileSync(path, 'utf8'));
     } catch (e) {
         let warn_obj;
 
