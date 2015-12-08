@@ -2,13 +2,23 @@
 
 const _ = require('lodash');
 
+// TODO: Use lower case variables
 const DEFAULTS = {
-    BUILD_DESTINATION: '_build',
+    // Basic
     PACKAGE_NAME: 'pacmod',
-    DIST_FOLDER: '',
     MAIN_PACKAGE: 'main',
+
+    // Build
+    BUILD_DESTINATION: '_build', // TODO: Rename to TEMP_FOLDER
+
+    // Dist
+    DIST_FOLDER: '', // TODO: Rename to BUILD_TARGET
+
+    // Serve
     PORT: 4000,
-    TEST_DESTINATION: '_test',
+
+    // Testing
+    TEST_DESTINATION: '_test', // TODO: Use the TEMP_FOLDER variable and a test directory, temp test destination shouldn't matter
     TEST_PORT: 4001
 };
 
@@ -34,11 +44,14 @@ function add_virtuals(Config) {
 
 function load_pacmod_config(path) {
     let contents = {};
+
     try {
+        // Blocking behavior implimented since we rely on the config for everything
         contents = JSON.parse(require('fs').readFileSync(path, 'utf8'));
     } catch (e) {
         let warn_obj;
 
+        // TODO: Better error detection/handling
         if (e.code === 'ENOENT') {
             warn_obj = "No config file found in current directory. Using pacmod default settings...";
         } else {
