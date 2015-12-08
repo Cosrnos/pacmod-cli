@@ -6,7 +6,6 @@ const _ = require('lodash');
 const ConfigLoader = require('./bin/conf.js');
 
 // Config Vars
-let tinylr;
 let CWD = process.cwd();
 
 // Load Arguments to parse any cwd changes
