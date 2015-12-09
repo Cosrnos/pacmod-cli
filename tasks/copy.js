@@ -4,8 +4,8 @@ const replace = require('gulp-replace');
 const rename = require('gulp-rename');
 
 module.exports = function (gulp, Config) {
-    const script_path = Config.DIST_FOLDER + '/' + Config.PACKAGE_NAME + '.js?t=' + (+new Date());
-    const test_path = Config.DIST_FOLDER + '/' + Config.PACKAGE_NAME + '-tests.js?t=' + (+new Date());
+    const script_path = Config.SCRIPT_PATH + '/' + Config.PACKAGE_NAME + '.js?t=' + (+new Date());
+    const test_path = Config.SCRIPT_PATH + '/' + Config.PACKAGE_NAME + '-tests.js?t=' + (+new Date());
 
     gulp.task('copy-public', ['clean'], function () {
         return gulp.src([Config.CWD + '/public/**/*'])
@@ -14,7 +14,7 @@ module.exports = function (gulp, Config) {
             .on('error', handle_error('copy-public'))
             .pipe(replace('__PACKAGE_NAME__', Config.PACKAGE_NAME))
             .on('error', handle_error('copy-public'))
-            .pipe(gulp.dest(Config.DIST_PATH + '/'))
+            .pipe(gulp.dest(Config._BUILD_TARGET_PATH + '/'))
             .on('error', handle_error('copy-public'));
     });
 
@@ -27,7 +27,7 @@ module.exports = function (gulp, Config) {
             .on('error', handle_error('copy-test-template'))
             .pipe(replace('__PACKAGE_NAME__', Config.PACKAGE_NAME))
             .on('error', handle_error('copy-test-template'))
-            .pipe(gulp.dest(Config.TEST_DEST + '/'))
+            .pipe(gulp.dest(Config._TEST_FOLDER_PATH + '/'))
             .on('error', handle_error('copy-test-template'));
     })
 }

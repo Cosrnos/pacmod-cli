@@ -9,7 +9,7 @@ module.exports = function (gulp, Config) {
         let express = require('express');
         let app = express();
         app.use(require('connect-livereload')({ port: 35729 }));
-        app.use(express.static(Config.DIST_PATH));
+        app.use(express.static(Config._BUILD_TARGET_PATH));
         app.listen(Config.PORT, '0.0.0.0');
     });
 
@@ -26,13 +26,13 @@ module.exports = function (gulp, Config) {
         let express = require('express');
         let app = express();
         app.use(require('connect-livereload')({ port: 35730 }));
-        app.use(express.static(Config.TEST_DEST));
+        app.use(express.static(Config._TEST_FOLDER_PATH));
         app.listen(Config.TEST_PORT, '0.0.0.0');
     });
 
     gulp.task('watch-test', ['express-test'], function () {
         gulp.watch(Config.CWD + '/packages/**/*.js', ['concat-test', 'build-test']);
-        gulp.watch(Config.TEST_DEST + '/**/*', notifyLiveReload);
+        gulp.watch(Config._TEST_FOLDER_PATH + '/**/*', notifyLiveReload);
         gulp.watch(Config.CWD + '/public/**/*', ['copy-test-template'], notifyLiveReload);
 
         console.log("Pacmod ready! Listening on port " + Config.TEST_PORT);

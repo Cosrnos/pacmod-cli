@@ -25,14 +25,15 @@ module.exports = function (gulp, Config) {
             }))
             .on('error', function (err) {
                 console.log("Error in es6 transpile: ", (err && err.stack) || err);
+                // Prevent gulp from ending the process
                 this.emit('end');
             })
-            .pipe(gulp.dest(Config.BUILD_DEST + '/tmp'))
+            .pipe(gulp.dest(Config._TEMP_FOLDER_PATH + '/tmp'))
             .on('error', handle_error('es6-commonjs'));
     });
 
     gulp.task('commonjs-bundle', ['clean', 'es6-commonjs'], function () {
-        return browserify([Config.BUILD_DEST + '/tmp/' + Config.MAIN_PACKAGE + '/index.js'])
+        return browserify([Config._TEMP_FOLDER_PATH + '/tmp/' + Config.MAIN_PACKAGE + '/index.js'])
             .on('error', handle_error('commonjs-bundle::browserify'))
             .bundle()
             .on('error', handle_error('commonjs-bundle::browserify-bundle'))
@@ -44,22 +45,22 @@ module.exports = function (gulp, Config) {
             //.on('error', handle_error('commonjs-bundle'))
             .pipe(rename(Config.PACKAGE_NAME + '.js'))
             .on('error', handle_error('commonjs-bundle'))
-            .pipe(gulp.dest(Config.BUILD_DEST))
+            .pipe(gulp.dest(Config._TEMP_FOLDER_PATH))
             .on('error', handle_error('commonjs-bundle'))
-            .pipe(gulp.dest(Config.DIST_PATH + Config.DIST_FOLDER))
+            .pipe(gulp.dest(Config._BUILD_TARGET_PATH + Config.SCRIPT_PATH))
             .on('error', handle_error('commonjs-bundle'));
     });
 
     gulp.task('concat-test', ['clean', 'commonjs-bundle'], function () {
-        return gulp.src([Config.BUILD_DEST + '/tmp/**/tests/*.js'])
+        return gulp.src([Config._TEMP_FOLDER_PATH + '/tmp/**/tests/*.js'])
             .pipe(concat('tmp/tests.js'))
             .on('error', handle_error('concat-test'))
-            .pipe(gulp.dest(Config.BUILD_DEST))
+            .pipe(gulp.dest(Config._TEMP_FOLDER_PATH))
             .on('error', handle_error('concat-test'))
     });
 
     gulp.task('build-test', ['concat-test'], function () {
-        return browserify([Config.BUILD_DEST + '/tmp/tests.js'])
+        return browserify([Config._TEMP_FOLDER_PATH + '/tmp/tests.js'])
             .on('error', handle_error('test-bundle::browserify'))
             .bundle()
             .on('error', handle_error('test-bundle::browserify-bundle'))
@@ -71,9 +72,9 @@ module.exports = function (gulp, Config) {
             //.on('error', handle_error('build-test'))
             .pipe(rename(Config.PACKAGE_NAME + '-tests.js'))
             .on('error', handle_error('build-test'))
-            .pipe(gulp.dest(Config.BUILD_DEST))
+            .pipe(gulp.dest(Config._TEMP_FOLDER_PATH))
             .on('error', handle_error('build-test'))
-            .pipe(gulp.dest(Config.TEST_DEST))
+            .pipe(gulp.dest(Config._TEST_FOLDER_PATH))
             .on('error', handle_error('build-test'));
     });
 }

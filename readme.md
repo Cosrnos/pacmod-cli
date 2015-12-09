@@ -46,31 +46,31 @@ pacmod will also copy files in the public folder of your project to the dist fol
 
 To configure pacmod, create a pacmod.json file in your project directory. The following configuration options are available:
 
-### <code>BUILD_DESTINATION</code>
+### <code>temp_folder</code>
 Default: <code>'_build'</code>
 The directory to use for temporary build files. You should have this directory in your project's <code>.gitignore</code> 
 
-### <code>PACKAGE_NAME</code>
-Default: <code>'pacmod'</code>
+### <code>package_name</code>
+Default: <code>Package.json.name</code> (<code>'pacmod'</code> if not available)
 The name of your module and the subsequent file to be built
 
-### <code>DIST_FOLDER</code>
-Default: <code>''</code>
-The folder relative to <code><Project-directory>/dist</code> that the compiled JS file should be moved to
+### <code>build_target</code>
+Default: <code>'dist'</code>
+The folder to to build the application to
 
-### <code>MAIN_PACKAGE</code>
+### <code>script_path</code>
+Default: <code>''</code>
+The folder relative to the <code>BUILD_TARGET</code> that the compiled JS file should be moved to
+
+### <code>main_package</code>
 Default: <code>'main'</code>
 The name of the package that should be used as the main entry point for the application. This file will be invoked on script load.
 
-### <code>PORT</code>
+### <code>port</code>
 Default: <code>4000</code>
 The port to serve development files from.
 
-### <code>TEST_DESTINATION</code>
-Default: <code>'_test'</code>
-The directory to use to serve test files from.
- 
-### <code>TEST_PORT</code>
+### <code>test_port</code>
 Default: <code>4001</code>
 The port to serve test files from
 

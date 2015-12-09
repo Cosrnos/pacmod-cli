@@ -16,7 +16,9 @@ function spawn_gulp_process() {
     gulp_process.stderr.pipe(process.stderr);
 
     gulp_process.stdout.on('close', function (data) {
-        console.log('stdout: ' + data);
+        if (data) {
+            console.log('PACMOD ERROR: ' + data);
+        }
     });
 }
 
@@ -26,7 +28,7 @@ if (options[0] === 'test') {
     pargs.push('test');
 }
 
-if (options[1] !== '-d') {
+if (options[1] !== '-d' && options[0] !== '-d') {
     pargs.push('--silent');
 }
 
