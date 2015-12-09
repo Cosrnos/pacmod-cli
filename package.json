@@ -1,6 +1,6 @@
 {
   "name": "pacmod-cli",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A package module development environment tool",
   "author": "Alex Roth <alexfrombismarck@gmail.com> (http://cosrnos.com/)",
   "license": "ISC",
