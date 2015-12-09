@@ -25,6 +25,7 @@ module.exports = function (gulp, Config) {
             }))
             .on('error', function (err) {
                 console.log("Error in es6 transpile: ", (err && err.stack) || err);
+                // Prevent gulp from ending the process
                 this.emit('end');
             })
             .pipe(gulp.dest(Config._TEMP_FOLDER_PATH + '/tmp'))
