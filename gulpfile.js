@@ -17,21 +17,28 @@ _.each(process.argv, (arg)=> {
     }
 });
 
-// Initialize config with working directory
-const Config = ConfigLoader(CWD);
+/**
+ * Initialize config with working directory
+ * !! THIS HAPPENS SYNCHRONOUSLY !!
+ */
+ConfigLoader.load(CWD)
+    .then((Config) => {
+        // Tasks
+        require('./tasks/clean.js')(gulp, Config);
+        require('./tasks/copy.js')(gulp, Config);
+        require('./tasks/build.js')(gulp, Config);
+        require('./tasks/serve.js')(gulp, Config);
 
-// Tasks
-require('./tasks/clean.js')(gulp, Config);
-require('./tasks/copy.js')(gulp, Config);
-require('./tasks/build.js')(gulp, Config);
-require('./tasks/serve.js')(gulp, Config);
+        // Aliases
+        gulp.task('clean', ['clean-build', 'clean-dist'])
+        gulp.task('build', ['commonjs-bundle', 'copy-public']);
+        gulp.task('serve', ['express', 'livereload', 'watch']);
+        gulp.task('test', ['clean', 'concat-test', 'build', 'build-test', 'copy-test-template', 'serve-test']);
+        gulp.task('serve-test', ['express-test', 'livereload-test', 'watch-test']);
+        gulp.task('dev', ['clean', 'build', 'serve']);
 
-// Aliases
-gulp.task('clean', ['clean-build', 'clean-dist'])
-gulp.task('build', ['commonjs-bundle', 'copy-public']);
-gulp.task('serve', ['express', 'livereload', 'watch']);
-gulp.task('test', ['clean', 'concat-test', 'build', 'build-test', 'copy-test-template', 'serve-test']);
-gulp.task('serve-test', ['express-test', 'livereload-test', 'watch-test']);
-gulp.task('dev', ['clean', 'build', 'serve']);
-
-gulp.task('default', ['dev']);
+        gulp.task('default', ['dev']);
+    })
+    .catch((err) => {
+        console.log("PACMOD: Error encountered:", (err && err.stack) || err);
+    });
