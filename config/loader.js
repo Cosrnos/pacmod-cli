@@ -1,9 +1,14 @@
 "use strict";
 
+// Modules
 const _ = require('lodash');
 const fs = require('fs');
 const RSVP = require('rsvp');
 
+// Packages
+const Utils = require('../packages/pacmod-utils/lib/index.js');
+
+// Fixtures
 const default_config_values = require('./defaults.js');
 
 // Public API
@@ -52,19 +57,24 @@ function merge_config_defaults(config) {
 
 /**
  * Adds virtual config properties to the given config object
- *
- * TODO: Should be getter/setter data
  * @param Config
  */
 function add_virtuals(Config) {
-    let virtuals = {
-        _BUILD_TARGET_PATH: Config.CWD + Config.BUILD_TARGET,
-        _TEMP_FOLDER_PATH: Config.CWD + '/' + Config.TEMP_FOLDER
-    };
+    var configCopy = Object.assign({}, Config);
 
-    virtuals._TEST_FOLDER_PATH = virtuals._TEMP_FOLDER_PATH + '/tests';
+    Utils.DEFINE_GET_PROPERTY(configCopy, '_BUILD_TARGET_PATH', () => {
+        return configCopy.CWD + configCopy.BUILD_TARGET
+    });
 
-    return _.defaults({}, Config, virtuals);
+    Utils.DEFINE_GET_PROPERTY(configCopy, '_TEMP_FOLDER_PATH', () => {
+        return configCopy.CWD + configCopy.TEMP_FOLDER;
+    });
+
+    Utils.DEFINE_GET_PROPERTY(configCopy, '_TEST_FOLDER_PATH', () => {
+        return configCopy._TEMP_FOLDER_PATH + '/tests';
+    });
+
+    return configCopy;
 };
 
 /**
