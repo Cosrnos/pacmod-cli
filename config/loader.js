@@ -111,6 +111,7 @@ function load_package_file(path) {
 function load_pacmod_config(path) {
     return new RSVP.Promise((resolve/**, reject **/) => {
         load_json(path)
+            .then(normalize_pacmod_config_data)
             .then(resolve)
             .catch((err) => {
                 let warn_obj;
@@ -125,8 +126,17 @@ function load_pacmod_config(path) {
                 console.log("WARNING: ", warn_obj);
 
                 resolve({});
-                ;
             });
+    });
+}
+
+/**
+ * Converts the given object keys to upper case
+ * @param raw_data
+ */
+function normalize_pacmod_config_data(raw_data) {
+    return _.mapKeys(raw_data, (value, key)=> {
+        return key.toUpperCase();
     });
 }
 

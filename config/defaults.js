@@ -1,4 +1,3 @@
-// TODO: Use lower case variables
 module.exports = {
     // Basic
     PACKAGE_NAME: 'pacmod', // TODO: Default to package.json name if available
