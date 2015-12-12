@@ -11,6 +11,8 @@ const Utils = require('../packages/pacmod-utils/lib/index.js');
 // Fixtures
 const default_config_values = require('./defaults.js');
 
+const folder_config_keys = ['BUILD_TARGET', 'TEMP_FOLDER', 'SCRIPT_PATH'];
+
 // Public API
 module.exports = {
     /**
@@ -145,9 +147,21 @@ function load_pacmod_config(path) {
  * @param raw_data
  */
 function normalize_pacmod_config_data(raw_data) {
-    return _.mapKeys(raw_data, (value, key)=> {
+    let config_data = _.mapKeys(raw_data, (value, key)=> {
         return key.toUpperCase();
     });
+
+    config_data = _.mapValues(raw_data, (value, key) => {
+        if (_.contains(folder_config_keys, key)) {
+            if (!is_path_char(value.charAt(0))) {
+                value = '/' + value;
+            }
+        }
+
+        return value;
+    });
+
+    return config_data;
 }
 
 /**
@@ -176,4 +190,14 @@ function read_file(path) {
         var data = fs.readFileSync(path, 'utf8');
         resolve(data);
     });
+}
+
+/**
+ * Determines whether the given character is valid at the beginning of a relative path
+ * @param char
+ * @returns {boolean}
+ */
+function is_path_char(char) {
+    let path_chars = ['.', '/'];
+    return _.contains(path_chars, char);
 }

@@ -4,10 +4,10 @@ module.exports = {
     MAIN_PACKAGE: 'main',
 
     // Build
-    TEMP_FOLDER: '_build',
+    TEMP_FOLDER: '/_build',
 
     // Dist
-    BUILD_TARGET: 'dist',
+    BUILD_TARGET: '/dist',
     SCRIPT_PATH: '',
 
     // Serve
