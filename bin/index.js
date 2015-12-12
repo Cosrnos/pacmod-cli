@@ -26,6 +26,8 @@ let pargs = ['--cwd=' + __dirname];
 
 if (options[0] === 'test') {
     pargs.push('test');
+} else if (options[0] === 'init') {
+    pargs.push('init');
 }
 
 if (options[1] !== '-d' && options[0] !== '-d') {

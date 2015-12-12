@@ -29,7 +29,27 @@ module.exports = function (gulp, Config) {
             .on('error', handle_error('copy-test-template'))
             .pipe(gulp.dest(Config._TEST_FOLDER_PATH + '/'))
             .on('error', handle_error('copy-test-template'));
-    })
+    });
+
+    gulp.task('copy-public-template', ['clean'], function () {
+        return gulp.src([__dirname + '/../templates/public/**/*'])
+            .on('error', handle_error('copy-public-template'))
+            .pipe(replace('__INCLUDE_MAIN__', script_path))
+            .on('error', handle_error('copy-public-template'))
+            .pipe(replace('__INCLUDE_TEST__', test_path))
+            .on('error', handle_error('copy-public-template'))
+            .pipe(replace('__PACKAGE_NAME__', Config.PACKAGE_NAME))
+            .on('error', handle_error('copy-public-template'))
+            .pipe(gulp.dest(Config.CWD + '/public'))
+            .on('error', handle_error('copy-public-template'));
+    });
+
+    gulp.task('copy-package-template', function () {
+        return gulp.src([__dirname + '/../templates/packages/**/*'])
+            .on('error', handle_error('copy-package-template'))
+            .pipe(gulp.dest(Config.CWD + '/packages'))
+            .on('error', handle_error('copy-package-template'))
+    });
 }
 
 function handle_error(source) {
