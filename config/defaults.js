@@ -14,5 +14,8 @@ module.exports = {
     PORT: 4000,
 
     // Testing
-    TEST_PORT: 4001
+    TEST_PORT: 4001,
+
+    // INTERNAL
+    __DIRNAME: __dirname + '/../'
 };

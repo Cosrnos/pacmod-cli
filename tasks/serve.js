@@ -9,6 +9,7 @@ module.exports = function (gulp, Config) {
         let express = require('express');
         let app = express();
         app.use(require('connect-livereload')({ port: 35729 }));
+        console.log("Serving from " + Config._BUILD_TARGET_PATH);
         app.use(express.static(Config._BUILD_TARGET_PATH));
         app.listen(Config.PORT, '0.0.0.0');
     });
