@@ -2,7 +2,7 @@ const assert = require('assert');
 
 const ArgumentProcessor = require('../lib/argument_processor.js');
 
-describe('pacmod-cli/argument_processor', function () {
+describe('pacmod-core/argument_processor', function () {
     describe('splitArguments', function () {
         it('should split arguments on spaces', function () {
             assert.deepEqual(ArgumentProcessor.splitArguments('init foo bar'), ['init', 'foo', 'bar']);

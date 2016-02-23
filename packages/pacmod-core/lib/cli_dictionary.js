@@ -3,7 +3,10 @@ var _ = require('lodash');
 var ArgumentDictionary = require('./argument_dictionary.js');
 var CLIDictionary = new ArgumentDictionary();
 
-var Commands = require('./commands/index.js');
+module.exports = CLIDictionary;
+
+var Package = require('./index.js');
+var Commands = Package.import('pacmod-commands');
 
 // Commands
 _.each(Commands.getAllHandlers(), function (handler) {
@@ -29,5 +32,3 @@ _.each(Commands.getAllHandlers(), function (handler) {
 
 // Flags
 CLIDictionary.define('-d', 'flag', 'Enables debug logs');
-
-module.exports = CLIDictionary;

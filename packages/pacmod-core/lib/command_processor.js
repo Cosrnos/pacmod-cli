@@ -1,8 +1,15 @@
 var Assert = require('assert');
-var ArgumentProcessor = require('./argument_processor.js');
-var Commands = require('./commands/index.js');
 var _ = require('lodash');
 var RSVP = require('rsvp');
+
+module.exports = {
+    execute: execute
+};
+
+// Internal Requires
+var Package = require('./index.js');
+var ArgumentProcessor = require('./argument_processor.js');
+var Commands = Package.import('pacmod-commands');
 
 function execute(pacfile, cli_args) {
     try {
@@ -63,7 +70,3 @@ function wrapCallbackInPromise(callback) {
         return resolve(callback);
     });
 }
-
-module.exports = {
-    execute: execute
-};
