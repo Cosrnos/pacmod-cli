@@ -36,6 +36,7 @@ ConfigLoader.load(CWD)
         gulp.task('test', ['clean', 'concat-test', 'build', 'build-test', 'copy-test-template', 'serve-test']);
         gulp.task('serve-test', ['express-test', 'livereload-test', 'watch-test']);
         gulp.task('dev', ['clean', 'build', 'serve']);
+        gulp.task('init', ['copy-package-template', 'copy-public-template']);
 
         gulp.task('default', ['dev']);
     })

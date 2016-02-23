@@ -1,37 +1,11 @@
 #! /usr/bin/env node
 "use strict";
 
-var gulp;
-var exec = require('exec');
-var child_process = require('child_process');
-var options = Array.prototype.slice.call(process.argv, 2);
+var ConfigLoader = require(__dirname + '/../config/loader.js');
+var CWD = process.cwd();
+var PacmodCLI = require(__dirname + '/../packages/pacmod-core/lib/index.js');
+var options = Array.prototype.slice.call(process.argv, 2).join(' ');
 
-function spawn_gulp_process() {
-    var gulp_process = child_process.spawn(__dirname + '/../node_modules/gulp/bin/gulp.js', Array.prototype.slice.call(arguments));
-
-    gulp_process.stdout.pipe(process.stdout, {
-        end: false
-    });
-
-    gulp_process.stderr.pipe(process.stderr);
-
-    gulp_process.stdout.on('close', function (data) {
-        if (data) {
-            console.log('PACMOD ERROR: ' + data);
-        }
-    });
-}
-
-let pargs = ['--cwd=' + __dirname];
-
-if (options[0] === 'test') {
-    pargs.push('test');
-}
-
-if (options[1] !== '-d' && options[0] !== '-d') {
-    pargs.push('--silent');
-}
-
-pargs.push('--pacmod_dir=' + process.cwd());
-
-spawn_gulp_process.apply(this, pargs);
+ConfigLoader.load(CWD).then(function (pacfile) {
+    PacmodCLI.CommandProcessor.execute(pacfile, options);
+});
