@@ -1,6 +1,6 @@
 {
   "name": "pacmod-cli",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A package module development environment tool",
   "author": "Alex Roth <alexfrombismarck@gmail.com> (http://cosrnos.com/)",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "browserify": "^12.0.1",
     "connect-livereload": "^0.5.4",
     "del": "^2.1.0",
+    "exec": "0.2.1",
     "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
